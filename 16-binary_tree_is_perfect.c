@@ -1,76 +1,31 @@
 #include "binary_trees.h"
-
+#include "9-binary_tree_height.c"
 /**
- * binary_tree_is_leaf - function that checks if a node is a leaf
- *@node: a pointer to the node to check
- *Return: 1 a leaf, 0 no
- *
+ * binary_tree_is_perfect - Check if a binary tree is perfect
+ * @tree: Pointer to the root node of the tree to check
+ * Return: 1 if perfect, 0 otherwise
  **/
-
-int binary_tree_is_leaf(const binary_tree_t *node)
-{
-	if (node == NULL)
-		return (0);
-
-	if (node->left == NULL && node->right == NULL)
-		return (1);
-	else
-		return (0);
-}
-
-/**
- * binary_tree_height - function that measures the height of a binary tree
- * @tree: Pointer to the root node
- * Return: The height of the tree or 0 if the tree is NULL
- */
-size_t binary_tree_height(const binary_tree_t *tree)
-{
-	size_t heightR = 0, heightL = 0;
-
-	if (tree == NULL)
-		return (0);
-	while (tree != NULL)
-	{
-		if (tree->left != NULL)
-		{
-			tree = tree->left;
-			heightL++;
-		}
-
-		else if (tree->right != NULL)
-		{
-			tree = tree->right;
-			heightR++;
-		}
-		else
-			break;
-	}
-	if (heightL >= heightR)
-		return (1 + heightL);
-	return (1 + heightR);
-}
-
-/**
- * binary_tree_is_perfect - function that checks if a binary tree is perfect
- *@tree: Pointer to the root node
- *Return: 1 perfect, 0 not perfect
- **/
-
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	if (tree == NULL)
-		return (0);
+    int height_left, height_right;
 
-	int countL = 0, countR = 0;
+    /*If the tree is empty, it is not perfect*/
+    if (tree == NULL)
+        return (0);
 
-	if (binary_tree_is_leaf(tree))
-		return (1);
-	countL += binary_tree_height(tree->left);
-	countR += binary_tree_height(tree->right);
+    /*Calculate the height of the left and right subtrees*/
+    height_left = binary_tree_height(tree->left);
+    height_right = binary_tree_height(tree->right);
 
-	if (countL != countR)
-		return (0);
+    /*If heights of left and right subtrees not equal, the tree is not perfect*/
+    if (height_left != height_right)
+        return (0);
 
-	return ((binary_tree_is_perfect(tree->left)) &&
-		(binary_tree_is_perfect(tree->right)));
+    /*If the current node is a leaf node, it is perfect*/
+    if (tree->left == NULL && tree->right == NULL)
+        return (1);
+
+    /*Recursively check if the left and right subtrees are perfect*/
+    return (binary_tree_is_perfect(tree->left) &&
+            binary_tree_is_perfect(tree->right));
 }
