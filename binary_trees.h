@@ -2,6 +2,8 @@
 #define ALL_PROTHO_H
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 /**
  * struct binary_tree_s - Binary tree node
  *
